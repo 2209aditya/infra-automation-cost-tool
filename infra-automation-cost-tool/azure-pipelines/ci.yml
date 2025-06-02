@@ -1,0 +1,20 @@
+﻿trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- task: UsePythonVersion@0
+  inputs:
+    versionSpec: '3.x'
+
+- script: |
+    python -m pip install --upgrade pip
+    pip install -r cost-reporter/requirements.txt
+  displayName: 'Install dependencies'
+
+- script: |
+    export AZURE_SUBSCRIPTION_ID=\
+    python cost-reporter/cost_report.py
+  displayName: 'Run cost report'
